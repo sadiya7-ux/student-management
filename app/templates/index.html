@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="A clear, organized student directory and academic overview.">
+    <title>Students | Campus Desk</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#overview" aria-label="Campus Desk home">
+          <span class="brand-mark" aria-hidden="true">C</span>
+          <span>campus<span class="brand-light">desk</span></span>
+        </a>
+        <div class="workspace-label">WORKSPACE</div>
+        <nav class="side-nav" aria-label="Main navigation">
+          <a class="nav-link active" href="#overview" aria-current="page"><span class="nav-icon">▦</span>Overview</a>
+          <a class="nav-link" href="#students"><span class="nav-icon">♙</span>Students</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <span class="help-icon">✳</span>
+            <strong>Everything in its place.</strong>
+            <p>Your student records, organized and ready when you are.</p>
+          </div>
+          <div class="profile-chip">
+            <div class="avatar avatar-admin">AD</div>
+            <div><strong>Administrator</strong><span>Campus workspace</span></div>
+            <span class="online-dot" aria-label="Online"></span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Workspace</span><span class="breadcrumb-slash">/</span><strong id="current-page-name">Overview</strong></div>
+          <div class="topbar-actions">
+            <span class="today-label" id="today-label"></span>
+            <button class="button button-primary top-add" type="button" data-open-create data-page-control="overview"><span aria-hidden="true">＋</span> Add student</button>
+          </div>
+        </header>
+
+        <section class="page-content page-section" id="overview-page" data-page-section="overview">
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow">YOUR CAMPUS AT A GLANCE</p>
+              <h1>Good morning, <span class="heading-accent">Administrator</span></h1>
+              <p class="page-subtitle">Here’s what’s happening with your student community.</p>
+            </div>
+            <div class="term-pill"><span></span> Academic overview</div>
+          </div>
+
+          <section class="stats-grid" aria-label="Student statistics">
+            <article class="stat-card stat-primary">
+              <div class="stat-top"><span class="stat-label">Total students</span><span class="stat-icon">♙</span></div>
+              <div class="stat-value" id="total-students">—</div>
+              <div class="stat-foot"><span class="stat-dot"></span> Across all departments</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Departments</span><span class="stat-icon icon-lilac">⌘</span></div>
+              <div class="stat-value" id="department-count">—</div>
+              <div class="stat-foot">Represented in your directory</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Most represented</span><span class="stat-icon icon-amber">↗</span></div>
+              <div class="stat-value stat-text" id="top-department">—</div>
+              <div class="stat-foot" id="top-department-count">No department data yet</div>
+            </article>
+          </section>
+
+          <section class="insights-grid" aria-label="Student insights">
+            <article class="panel department-panel">
+              <div class="panel-heading">
+                <div><h2>Students by department</h2><p>A quick look at your campus community</p></div>
+                <span class="panel-kicker">DISTRIBUTION</span>
+              </div>
+              <div id="department-chart" class="bar-chart"><div class="chart-empty">Add students to see department insights.</div></div>
+            </article>
+            <article class="panel year-panel">
+              <div class="panel-heading">
+                <div><h2>Year of study</h2><p>Enrollment across study years</p></div>
+                <span class="panel-kicker">BY YEAR</span>
+              </div>
+              <div id="year-chart" class="year-chart"><div class="chart-empty">Year data will appear here.</div></div>
+            </article>
+          </section>
+
+          <section class="panel directory-panel overview-preview">
+            <div class="directory-heading">
+              <div><div class="title-with-count"><h2>Student directory preview</h2></div><p>A quick look at your student records</p></div>
+              <a class="button button-quiet" href="#students">View all students <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>STUDENT</th><th>ROLL NUMBER</th><th>DEPARTMENT / COURSE</th><th>YEAR</th><th>ENTRY YEAR</th></tr></thead>
+                <tbody id="overview-student-rows"><tr><td class="loading-cell" colspan="5"><span class="spinner"></span> Loading student records…</td></tr></tbody>
+              </table>
+            </div>
+          </section>
+          <footer class="page-footer"><span>Campus Desk <span class="footer-separator">·</span> Student administration made simple</span><span>Student records are securely managed</span></footer>
+        </section>
+
+        <section class="page-content page-section students-page" id="students-page" data-page-section="students" hidden>
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow">STUDENT RECORDS</p>
+              <h1>Students</h1>
+              <p class="page-subtitle">Search, review, and manage your student directory.</p>
+            </div>
+            <div class="term-pill"><span></span> Student directory</div>
+          </div>
+
+          <section class="panel directory-panel">
+            <div class="directory-heading">
+              <div><div class="title-with-count"><h2>All students</h2><span class="count-pill" id="directory-count">0</span></div><p>Manage and review your student records</p></div>
+              <button class="button button-primary" type="button" data-open-create><span aria-hidden="true">＋</span> Add student</button>
+            </div>
+            <div class="table-toolbar">
+              <label class="search-box">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <span class="sr-only">Search students</span>
+                <input id="student-search" type="search" placeholder="Search by name or roll number…" autocomplete="off">
+                <kbd>/</kbd>
+              </label>
+              <label class="filter-box">
+                <span class="sr-only">Filter by department</span>
+                <span class="filter-icon" aria-hidden="true">☷</span>
+                <select id="department-filter"><option value="">All departments</option></select>
+              </label>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>STUDENT</th><th>ROLL NUMBER</th><th>DEPARTMENT / COURSE</th><th>YEAR</th><th>ENTRY YEAR</th><th><span class="sr-only">Actions</span></th></tr></thead>
+                <tbody id="student-rows"><tr><td class="loading-cell" colspan="6"><span class="spinner"></span> Loading student records…</td></tr></tbody>
+              </table>
+            </div>
+            <div class="directory-footer"><span id="results-label">Loading records…</span><span class="footer-note"><span class="live-dot"></span> Directory is up to date</span></div>
+          </section>
+          <footer class="page-footer"><span>Campus Desk <span class="footer-separator">·</span> Student administration made simple</span><span>Student records are securely managed</span></footer>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="modal" id="student-dialog" aria-labelledby="student-dialog-title">
+      <form id="student-form" novalidate>
+        <div class="modal-header">
+          <div><p class="eyebrow">STUDENT RECORD</p><h2 id="student-dialog-title">Add a student</h2><p class="modal-subtitle">Enter the student’s details below.</p></div>
+          <button type="button" class="icon-button close-dialog" data-close-dialog aria-label="Close dialog">×</button>
+        </div>
+        <div id="form-error" class="form-alert" role="alert" hidden></div>
+        <div class="form-grid">
+          <label class="form-field field-wide">Full name <span class="required">*</span><input name="full_name" required maxlength="120" placeholder="e.g. Maya Chen"><small class="field-error" data-error-for="full_name"></small></label>
+          <label class="form-field">Roll number <span class="required">*</span><input name="roll_number" required maxlength="40" placeholder="e.g. CS-2025-014"><small class="field-error" data-error-for="roll_number"></small></label>
+          <label class="form-field">Email address <span class="required">*</span><input name="email" type="email" required maxlength="254" placeholder="student@university.edu"><small class="field-error" data-error-for="email"></small></label>
+          <label class="form-field">Phone number <span class="required">*</span><input name="phone_number" type="tel" required maxlength="25" placeholder="+1 (555) 000-0000"><small class="field-error" data-error-for="phone_number"></small></label>
+          <label class="form-field">Department <span class="required">*</span><input name="department" required maxlength="100" placeholder="e.g. Computer Science"><small class="field-error" data-error-for="department"></small></label>
+          <label class="form-field">Course <span class="required">*</span><input name="course" required maxlength="120" placeholder="e.g. BSc Computer Science"><small class="field-error" data-error-for="course"></small></label>
+          <label class="form-field">Year of study <span class="required">*</span><select name="year_of_study" required><option value="">Select year</option><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option></select><small class="field-error" data-error-for="year_of_study"></small></label>
+          <label class="form-field">Date of entry <span class="required">*</span><input name="date_of_admission" type="text" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" data-min-year="1900" autocomplete="off" placeholder="e.g. 2025" required aria-describedby="entry-year-help"><small class="field-error" data-error-for="date_of_admission"></small><small id="entry-year-help">Enter a four-digit year from 1900 through the current year.</small></label>
+        </div>
+        <div class="modal-footer"><span class="required-note"><span class="required">*</span> Required fields</span><div class="modal-actions"><button type="button" class="button button-quiet" data-close-dialog>Cancel</button><button type="submit" class="button button-primary" id="save-student">Save student</button></div></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal profile-modal" id="profile-dialog" aria-labelledby="profile-name">
+      <div class="modal-header">
+        <div class="profile-heading"><div class="avatar avatar-large" id="profile-avatar">ST</div><div><p class="eyebrow">STUDENT PROFILE</p><h2 id="profile-name">Student</h2><p class="modal-subtitle" id="profile-roll"></p></div></div>
+        <button type="button" class="icon-button close-dialog" data-close-dialog aria-label="Close dialog">×</button>
+      </div>
+      <div id="profile-details" class="profile-details"></div>
+      <div class="modal-footer"><span class="profile-id" id="profile-id"></span><div class="modal-actions"><button type="button" class="button button-quiet" data-close-dialog>Close</button><button type="button" class="button button-primary" id="profile-edit">Edit student</button></div></div>
+    </dialog>
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>

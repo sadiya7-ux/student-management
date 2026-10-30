@@ -1,0 +1,109 @@
+{
+  "info": {
+    "_postman_id": "d711c07a-310f-497d-9f4d-94db62fca27b",
+    "name": "Campus Desk - Student Management API",
+    "description": "REST API requests for the Campus Desk student management application.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000"
+    },
+    {
+      "key": "studentId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Dashboard stats",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/dashboard/stats"
+      }
+    },
+    {
+      "name": "List students",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/students"
+      }
+    },
+    {
+      "name": "Search students by name or roll number",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/students?search=CS-2025",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"],
+          "query": [{"key": "search", "value": "CS-2025"}]
+        }
+      }
+    },
+    {
+      "name": "Filter students by department",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/students?department=Computer%20Science",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"],
+          "query": [{"key": "department", "value": "Computer Science"}]
+        }
+      }
+    },
+    {
+      "name": "Get student",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/students/{{studentId}}"
+      }
+    },
+    {
+      "name": "Create student",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  pm.collectionVariables.set('studentId', pm.response.json().data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Avery Morgan\",\n  \"roll_number\": \"CS-2025-014\",\n  \"email\": \"avery.morgan@example.edu\",\n  \"phone_number\": \"+1 (555) 123-4567\",\n  \"department\": \"Computer Science\",\n  \"course\": \"BSc Computer Science\",\n  \"year_of_study\": 2,\n  \"date_of_admission\": \"2025\"\n}"
+        },
+        "url": "{{baseUrl}}/api/students"
+      }
+    },
+    {
+      "name": "Update student",
+      "request": {
+        "method": "PUT",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Avery Chen\",\n  \"roll_number\": \"CS-2025-014\",\n  \"email\": \"avery.morgan@example.edu\",\n  \"phone_number\": \"+1 (555) 123-4567\",\n  \"department\": \"Computer Science\",\n  \"course\": \"BSc Computer Science\",\n  \"year_of_study\": 3,\n  \"date_of_admission\": \"2025\"\n}"
+        },
+        "url": "{{baseUrl}}/api/students/{{studentId}}"
+      }
+    },
+    {
+      "name": "Delete student",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/students/{{studentId}}"
+      }
+    }
+  ]
+}
